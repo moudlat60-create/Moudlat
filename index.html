@@ -1,9 +1,403 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Portal Mobile Demo</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MOUDLAT — Rencontres & Agence Matrimoniale</title>
+  <style>
+    :root {
+      --orange: #e86a17;
+      --orange-dark: #c4530b;
+      --vert: #157347;
+      --vert-light: #e9f6ef;
+      --bg: #f6f7f9;
+      --card: #ffffff;
+      --text: #1c2024;
+      --muted: #5c6670;
+      --border: #dfe4ea;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      padding-bottom: 40px;
+    }
+
+    header {
+      background: linear-gradient(135deg, var(--orange), var(--vert));
+      color: #fff;
+      padding: 18px 16px 14px;
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .brand h1 {
+      font-size: 1.35rem;
+      letter-spacing: 0.5px;
+    }
+
+    .badge {
+      background: rgba(255, 255, 255, 0.2);
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .subtitle {
+      font-size: 0.85rem;
+      opacity: 0.95;
+      margin-top: 4px;
+    }
+
+    nav.tabs {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      padding: 12px 16px 0;
+    }
+
+    .tab-btn {
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--text);
+      padding: 10px 8px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 0.88rem;
+      cursor: pointer;
+    }
+
+    .tab-btn.active {
+      background: var(--vert);
+      color: #fff;
+      border-color: var(--vert);
+    }
+
+    main {
+      max-width: 680px;
+      margin: 14px auto 0;
+      padding: 0 16px;
+    }
+
+    .panel {
+      display: none;
+    }
+
+    .panel.active {
+      display: block;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px;
+      margin-bottom: 14px;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+    }
+
+    .card h2 {
+      font-size: 1.05rem;
+      margin-bottom: 8px;
+      color: var(--vert);
+    }
+
+    .card p.desc {
+      font-size: 0.88rem;
+      color: var(--muted);
+      margin-bottom: 12px;
+      line-height: 1.45;
+    }
+
+    label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-top: 10px;
+      margin-bottom: 4px;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-size: 0.92rem;
+      background: #fff;
+      color: var(--text);
+    }
+
+    textarea {
+      min-height: 80px;
+      resize: vertical;
+    }
+
+    .btn-primary {
+      width: 100%;
+      margin-top: 14px;
+      background: var(--orange);
+      color: #fff;
+      border: none;
+      padding: 12px;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .btn-primary:hover {
+      background: var(--orange-dark);
+    }
+
+    .btn-secondary {
+      background: var(--vert-light);
+      color: var(--vert);
+      border: 1px solid var(--vert);
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .profile-item {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px;
+      margin-top: 10px;
+      background: #fcfcfd;
+    }
+
+    .profile-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+
+    .tag {
+      background: var(--vert-light);
+      color: var(--vert);
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 999px;
+    }
+
+    .alert-box {
+      background: var(--vert-light);
+      border-left: 4px solid var(--vert);
+      padding: 10px 12px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      color: var(--text);
+      margin-top: 10px;
+      display: none;
+    }
+
+    ul.rules-list {
+      padding-left: 18px;
+      line-height: 1.6;
+      font-size: 0.9rem;
+    }
+
+    ul.rules-list li {
+      margin-bottom: 8px;
+    }
+  </style>
 </head>
-<body><p>Connect to the internet to open your portal.</p></body>
+<body>
+  <header>
+    <div class="brand">
+      <h1>MOUDLAT</h1>
+      <span class="badge">Rencontres & Mariage</span>
+    </div>
+    <p class="subtitle">Espace communautaire et agence matrimoniale vérifiée</p>
+  </header>
+
+  <nav class="tabs">
+    <button class="tab-btn active" data-tab="rencontres">Rencontres</button>
+    <button class="tab-btn" data-tab="mariage">Mariage Secret</button>
+    <button class="tab-btn" data-tab="regles">Règles</button>
+  </nav>
+
+  <main>
+    <!-- ONGLET 1 : RENCONTRES -->
+    <section id="rencontres" class="panel active">
+      <div class="card">
+        <h2>Publier une annonce de rencontre</h2>
+        <p class="desc">Partagez un profil respectueux. Les annonces sont enregistrées localement sur votre appareil.</p>
+        <form id="rencontreForm">
+          <label for="rNom">Prénom / Pseudo</label>
+          <input id="rNom" type="text" required placeholder="Ex. : Aminata, 24 ans" />
+
+          <label for="rVille">Ville / Quartier</label>
+          <input id="rVille" type="text" required placeholder="Ex. : Niamey, Maradi..." />
+
+          <label for="rObjectif">Intention</label>
+          <select id="rObjectif">
+            <option value="Amitié & échanges">Amitié & échanges</option>
+            <option value="Relation sérieuse">Relation sérieuse</option>
+            <option value="Mariage">Mariage</option>
+          </select>
+
+          <label for="rMessage">Présentation</label>
+          <textarea id="rMessage" required placeholder="Présentez-vous brièvement et indiquez ce que vous recherchez..."></textarea>
+
+          <button type="submit" class="btn-primary">Publier l'annonce</button>
+        </form>
+        <div id="rConfirm" class="alert-box">Annonce publiée avec succès.</div>
+      </div>
+
+      <div class="card">
+        <h2>Annonces récentes</h2>
+        <div id="listeAnnonces"></div>
+      </div>
+    </section>
+
+    <!-- ONGLET 2 : MARIAGE SECRET -->
+    <section id="mariage" class="panel">
+      <div class="card">
+        <h2>🔒 Déposer mon dossier Mariage</h2>
+        <p class="desc">
+          Votre dossier est transmis directement à l'administration via FormSubmit vers <strong>moudlat60@gmail.com</strong> pour vérification confidentielle.
+        </p>
+
+        <form id="mariageForm" action="https://formsubmit.co/moudlat60@gmail.com" method="POST" enctype="multipart/form-data">
+          <input type="hidden" name="_subject" value="Nouveau dossier Mariage — MOUDLAT" />
+          <input type="hidden" name="_captcha" value="false" />
+          <input type="hidden" name="_template" value="table" />
+
+          <label for="mNomComplet">Nom et prénom</label>
+          <input id="mNomComplet" name="Nom_et_Prenom" type="text" required placeholder="Votre nom complet" />
+
+          <label for="mAge">Âge</label>
+          <input id="mAge" name="Age" type="number" min="18" max="99" required placeholder="Ex. : 26" />
+
+          <label for="mTelephone">Téléphone / WhatsApp</label>
+          <input id="mTelephone" name="Telephone" type="tel" required placeholder="Ex. : +227 89 49 96 36" />
+
+          <label for="mVille">Ville de résidence</label>
+          <input id="mVille" name="Ville" type="text" required placeholder="Ex. : Niamey / Maradi" />
+
+          <label for="mCritere">Critères souhaités & situation</label>
+          <textarea id="mCritere" name="Criteres_et_Situation" required placeholder="Situation matrimoniale, profession, valeurs et critères recherchés..."></textarea>
+
+          <label for="mPhoto">Photo ou pièce justificative (optionnel)</label>
+          <input id="mPhoto" name="Piece_jointe" type="file" accept="image/*" />
+
+          <button type="submit" class="btn-primary">Envoyer mon dossier Mariage</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- ONGLET 3 : RÈGLES -->
+    <section id="regles" class="panel">
+      <div class="card">
+        <h2>Règles de sécurité et de conduite</h2>
+        <ul class="rules-list">
+          <li><strong>Respect mutuel :</strong> Aucun propos insultant, harcèlement ou manque de respect ne sera toléré.</li>
+          <li><strong>Authenticité :</strong> Fournissez des informations sincères et conformes à votre situation réelle.</li>
+          <li><strong>Confidentialité :</strong> Les dossiers déposés dans <em>Mariage Secret</em> sont destinés à la vérification administrative et ne doivent pas être diffusés publiquement.</li>
+          <li><strong>Prudence :</strong> Ne partagez jamais vos mots de passe, codes personnels ou informations bancaires sensibles avec d'autres utilisateurs.</li>
+          <li><strong>Majorité :</strong> L'utilisation de la plateforme est réservée aux personnes majeures (18 ans et plus).</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // Gestion des onglets
+    const tabButtons = document.querySelectorAll(".tab-btn");
+    const panels = document.querySelectorAll(".panel");
+
+    tabButtons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        tabButtons.forEach((b) => b.classList.remove("active"));
+        panels.forEach((p) => p.classList.remove("active"));
+        btn.classList.add("active");
+        document.getElementById(btn.dataset.tab).classList.add("active");
+      });
+    });
+
+    // Sauvegarde locale des annonces Rencontres
+    const STORAGE_KEY = "moudlat_annonces_v1";
+    const rencontreForm = document.getElementById("rencontreForm");
+    const listeAnnonces = document.getElementById("listeAnnonces");
+    const rConfirm = document.getElementById("rConfirm");
+
+    function chargerAnnonces() {
+      const items = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+      if (items.length === 0) {
+        listeAnnonces.innerHTML = '<p class="desc">Aucune annonce publiée pour le moment. Soyez le premier à publier.</p>';
+        return;
+      }
+
+      listeAnnonces.innerHTML = items
+        .map(
+          (item) => `
+          <div class="profile-item">
+            <div class="profile-head">
+              <strong>${escapeHtml(item.nom)} — ${escapeHtml(item.ville)}</strong>
+              <span class="tag">${escapeHtml(item.objectif)}</span>
+            </div>
+            <p class="desc" style="margin-bottom:0; color:#1c2024;">${escapeHtml(item.message)}</p>
+          </div>
+        `
+        )
+        .join("");
+    }
+
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+
+    rencontreForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const nouvelle = {
+        nom: document.getElementById("rNom").value.trim(),
+        ville: document.getElementById("rVille").value.trim(),
+        objectif: document.getElementById("rObjectif").value,
+        message: document.getElementById("rMessage").value.trim()
+      };
+
+      const items = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+      items.unshift(nouvelle);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+
+      rencontreForm.reset();
+      rConfirm.style.display = "block";
+      setTimeout(() => {
+        rConfirm.style.display = "none";
+      }, 3000);
+      chargerAnnonces();
+    });
+
+    chargerAnnonces();
+  </script>
+</body>
 </html>
+
